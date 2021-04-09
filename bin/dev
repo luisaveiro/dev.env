@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+#
+# Main executable shell script.
+
+set -e
+
+readonly CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# shellcheck source=/dev/null
+source "${CURRENT_DIR}/config/core.sh"
+
+# shellcheck source=/dev/null
+source "${CURRENT_DIR}/functions/functions.sh"
+
+# shellcheck source=/dev/null
+source "${CURRENT_DIR}/commands/commands.sh"
+
+# shellcheck source=/dev/null
+source "${CURRENT_DIR}/packages/packages.sh"
+
+#######################################
+# Main shell script.
+#
+# Globals:
+#   PROJECT_DIR
+#
+# Arguments:
+#   User input
+#
+# Returns:
+#   0 if user does not provide an input.
+#######################################
+function main() {
+  local package command
+
+  if [ $# == 0 ] || [ "${1}" == 'help' ]; then
+    command::help \
+      --project_dir="${PROJECT_DIR}" \
+      --package=env \
+      --package=repos
+
+    exit 0
+  elif [[ $1 != *":"* ]]; then
+    # loop through user input.
+    for arg in "$@"; do
+      shift
+      case "$arg" in
+        self-update)
+          command::self_update --project_dir="${PROJECT_DIR}"
+          break;;
+        *)
+          error "Command $(ansi --bold --white "${arg}") is not supported."
+          exit 1;;
+      esac
+    done
+  else
+    package="$(cut -d':' -f1 <<< "$1")"
+    command="$(cut -d':' -f2 <<< "$1")"
+
+    shift
+    package::load "${package}/${package}.sh"
+    package::execute_command --package="${package}" --command="${command}" "$@"
+  fi
+}
+
+# Verify operating system is supported...
+is_operating_system_supported
+
+# Ensure that Git is installed...
+if ! git::is_installed; then
+  error "Please install Git via" \
+    "$(ansi --bold --white --underline https://git-scm.com) before using" \
+    "$(ansi --bold --white DEV.env)"
+
+  exit 1
+fi
+
+# Execute main function...
+main "$@"
