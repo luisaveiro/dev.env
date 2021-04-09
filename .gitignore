@@ -1,0 +1,4 @@
+.DS_Store
+setups/*
+templates/*
+!templates/repositories-template.yml
