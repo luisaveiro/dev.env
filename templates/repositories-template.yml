@@ -1,0 +1,23 @@
+---
+# List of repositories that DEV.env will setup.
+#
+# The repositories' name format guidelines are as follows:
+# - Can contain alphabet, numbers, dashes, underscores and period
+# - No spaces or special characters
+enabled-repositories:
+  - repository-one
+  - repository-two
+---
+# Description
+repository-one:
+  gitUrl: git@github.com:username/repository-one.git
+  branch: main
+  localDirectory:
+  setupCommand:
+---
+# Description
+repository-two:
+  gitUrl: git@github.com:username/repository-two.git
+  branch: main
+  localDirectory:
+  setupCommand:
