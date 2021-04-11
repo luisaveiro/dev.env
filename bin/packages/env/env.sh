@@ -34,7 +34,7 @@ function package::env() {
         env::config --setup_dir="${SETUP_DIR}" "$@"
         break;;
       setup)
-        env::setup --setup_dir="${SETUP_DIR}" "$1"
+        env::setup --setup_dir="${SETUP_DIR}" "$@"
         break;;
       *)
         error "Command $(ansi --bold --white "env:${arg}")" \

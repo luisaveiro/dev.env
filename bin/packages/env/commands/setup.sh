@@ -7,14 +7,14 @@
 #
 # Arguments:
 #   --setup_dir
-#   setup_file
+#   setup_files
 #
 # Returns:
 #   1 if setup file does not exists.
 #######################################
 function env::setup() {
   local arguments_list=("setup_dir")
-  local setup_dir setup_file=$*
+  local setup_dir setup_files=$*
 
   while [ $# -gt 0 ]; do
     if [[ $1 == *"--"* && $1 == *"="* ]]; then
@@ -22,7 +22,7 @@ function env::setup() {
       IFS='=' read -ra parameter <<< "${argument}"
 
       if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
-        setup_file="${setup_file/--${argument}/}"
+        setup_files="${setup_files/--${argument}/}"
         declare "${parameter[0]}"="${parameter[1]}"
       fi
     fi
@@ -30,23 +30,29 @@ function env::setup() {
     shift
   done
 
-  # Strip out whitespaces
-  setup_file="${setup_file//[[:blank:]]/}"
+  IFS=' ' read -ra setup_files <<< "${setup_files}"
 
-  if [ "${setup_file: -3}" != ".sh" ]; then
-    setup_file="${setup_file}.sh"
+  if [[ ${#setup_files[@]} -eq 0 ]]; then
+    error "Please provide a setup file name to configure your" \
+      "development environment."
   fi
 
-  if ! file_exists "${setup_dir}/${setup_file}"; then
-    error --newline=bottom "Development environment setup file" \
-      "$(ansi --bold --white "${setup_file}") does not exist."
+  for setup_file in "${setup_files[@]}"; do
+    if [ "${setup_file: -3}" != ".sh" ]; then
+      setup_file="${setup_file}.sh"
+    fi
 
-    info "Use the following command to add ${setup_file} setup file:" \
-      "$(ansi --bold --white env:config "path/${setup_file}")"
+    if ! file_exists "${setup_dir}/${setup_file}"; then
+      error --newline=bottom "Development environment setup file" \
+        "$(ansi --bold --white "${setup_file}") does not exist."
 
-    exit 1
-  fi
+      info "Use the following command to add ${setup_file} setup file:" \
+        "$(ansi --bold --white env:config "path/${setup_file}")"
 
-  # execute development environment setup shell script.
-  cd ~ && bash "${setup_dir}/${setup_file}"
+      exit 1
+    fi
+
+    # execute development environment setup shell script.
+    cd ~ && bash "${setup_dir}/${setup_file}"
+  done
 }
