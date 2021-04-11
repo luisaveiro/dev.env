@@ -195,7 +195,11 @@ your development environment.
 The `env:setup` command requires the setup file name as an argument.
 
 ```bash
+# Individual setup file
 $ dev env:setup macos
+
+# Multiple setup files
+$ dev env:setup macos vscode
 ```
 
 #### 5. <ins>Add repositories YAML file to DEV.env</ins>
