@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.1] - 2021-04-11
+### Changed
+- `env:setup` command accepts multiple arguments to support running multiple setup files.
+
 ## [v0.1.0] - 2021-04-10
 ### Added
 - Initial project setup.
