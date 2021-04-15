@@ -60,6 +60,29 @@ function git::clone() {
 }
 
 #######################################
+# Git fetch
+#
+# Arguments:
+#   --dir
+#######################################
+function git::fetch() {
+  local dir
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--dir="* ]]; then
+      local argument="${1/--/}"
+      IFS='=' read -ra parameter <<< "${argument}"
+
+      declare "${parameter[0]}"="${parameter[1]}"
+    fi
+
+    shift
+  done
+
+  _=$(cd "${dir}" && git fetch --all)
+}
+
+#######################################
 # Get the Gist hash.
 #
 # Global:
