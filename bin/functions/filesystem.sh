@@ -31,6 +31,22 @@ function file_exists() {
 }
 
 #######################################
+# Get file extension.
+#
+# Arguments:
+#   file
+#
+# Outputs:
+#   git hostname
+#######################################
+function file_extension() {
+  local file_name
+  file_name="$(file_name "${1}")"
+
+  echo "${file_name#*.}"
+}
+
+#######################################
 # Get file name from path.
 #
 # Arguments:
@@ -68,8 +84,34 @@ function is_directory_empty() {
 #   1 if file is not remote.
 #######################################
 function is_file_remote() {
-  local protocol
-  protocol="$(git::protocol "$1")"
+  local regex="^(http|https|git)(:\/\/|@)"
 
-  [[ -n ${protocol} ]] && return 0 || return 1
+  [[ $1 =~ ${regex} ]] && return 0 || return 1
+}
+
+#######################################
+# Create a Symlink
+#
+# Arguments:
+#   --original
+#   --link
+#######################################
+function symlink() {
+  local arguments_list=("original" "link")
+  local original link
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--"* && $1 == *"="* ]]; then
+      local argument="${1/--/}"
+      IFS='=' read -ra parameter <<< "${argument}"
+
+      if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
+        declare "${parameter[0]}"="${parameter[1]}"
+      fi
+    fi
+
+    shift
+  done
+
+  ln -s "${original}" "${link}"
 }
