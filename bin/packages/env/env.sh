@@ -5,6 +5,7 @@
 readonly ENV_DIR="${PACKAGES_DIR}/ENV"
 
 readonly ENV_DEPENDENCIES=(
+  "${ENV_DIR}/functions/functions"
   "${ENV_DIR}/commands/commands"
 )
 
