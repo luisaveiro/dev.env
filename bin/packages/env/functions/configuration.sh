@@ -159,7 +159,7 @@ function env::remote_configuration() {
         "$(ansi --bold --white "${clone_dir/${setup_dir}\//}") setup files."
   fi
 
-  if ! git::clone --quiet --git="${setup_file}" --dir="${clone_dir}"; then
+  if ! git::clone --quiet --git="${remote_config}" --dir="${clone_dir}"; then
     error "Remote repository not found. Could not read from remote repository."
     output "Please make sure you have the correct access rights" \
       "and the remote repository exists."
