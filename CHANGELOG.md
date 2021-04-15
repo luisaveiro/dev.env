@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.0] - 2021-04-15
+### Added
+- Configuration functions for `repos` package.
+### Changed
+- `self-update` command git output to throwaway variable.
+- `git::fetch` function output to standard output and error.
+- `repos:config` command accepts git repository as a remote configuration.
+
+### Fixed
+- Incorrect variable name for git remote config in `env::remote_configuration`.
+
 ## [v0.2.1] - 2021-04-15
 ### Added
 - `git::fetch` function to `git` package.
