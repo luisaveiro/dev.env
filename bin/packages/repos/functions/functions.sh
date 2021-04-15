@@ -5,6 +5,7 @@
 readonly REPOS_FUNCTIONS_DIR="${REPOS_DIR}/functions"
 
 readonly REPOS_FUNCTIONS=(
+  "configuration"
   "repository"
 )
 
