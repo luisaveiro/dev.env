@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.0] - 2021-04-15
+### Added
+- Linux as supported OS.
+- `file_extension` filesystem function.
+- `symlink` filesystem function.
+- `git::is_gist` function to `git` package to detect if git repository is GitHub Gist repository.
+- Configuration functions for `env` package.
+
+### Changed
+- `is_file_remote` function uses own regex instead of `git::protocol` function.
+- `env:config` command accepts git repository as a remote configuration.
+- `env:config` command provides symbolic link to local configuration.
+
 ## [v0.1.1] - 2021-04-11
 ### Changed
 - `env:setup` command accepts multiple arguments to support running multiple setup files.
