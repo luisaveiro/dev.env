@@ -71,7 +71,7 @@ repositories you are cloning in advance.
 
 ## Download
 
-You can clone the latest version of ***DEV.env repository*** for macOS.
+You can clone the latest version of ***DEV.env repository*** for macOS and Linux.
 
 ```bash
 # Clone this repository.
@@ -85,7 +85,7 @@ By default, ***DEV.env*** commands are invoked by using the
 
 ```bash
 # Setup development environment.
-$ bash ~/dev.env/bin/dev env:setup
+$ bash path/dev.env/bin/dev env:setup
 ```
 
 #### <ins>Configuring A Bash Alias</ins>
@@ -95,7 +95,7 @@ Instead of you repeatedly typing `bash path/dev.env/bin/dev` to execute
 `~/.zshrc` that allows you to execute the commands more easily:
 
 ```bash
-alias dev='bash ~/dev.env/bin/dev'
+alias dev='bash path/dev.env/bin/dev'
 ```
 
 Once the Bash alias has been configured, you may execute ***DEV.env*** commands 
@@ -154,7 +154,8 @@ ensure code consistency and ease of collaboration.
 
 Instead, this tool offers the option to store multiple shell-based development 
 environment setup files by using the `env:config` command. You can provide a 
-local or remote-based setup file [(GitHub Gist support only)](https://gist.github.com/). 
+local or remote-based setup file (supports Git repositories and 
+[GitHub Gist](https://gist.github.com/)). 
 
 However remote-based setup files are preferred over local setup files for 
 several reasons not only for individual developers but also for development 
@@ -174,16 +175,45 @@ setup file when using the `env:config` command.
 $ dev env:config path/development-setup.sh
 ```
 
-###### Use remote-based setup files
-
-However, for remote-based setup files, there are additional requirements. You 
-need to ensure the file name includes the `.sh` extension in your GitHub Gist. 
-You will need to provide an additional `--name` option to the `env:config` 
-command, This will allow ***DEV.env*** to only store the desired configuration 
-file since you can include multiple files in your GitHub Gist.
+By default, ***DEV.env*** will create a symbolic link to your setup file. If 
+youprefer to not have a symbolic link, you can provide the `--no-symlink` 
+option to the `env:config` command.
 
 ```bash
-$ dev env:config git@gist.github.com:<gist-hash>.git --name=macos
+$ dev env:config path/development-setup.sh --no-symlink
+```
+
+If you wish to have ***DEV.env*** rename your setup file, you can provide the 
+`name` option to the `env:config` command.
+
+```bash
+$ dev env:config path/development-setup.sh --name=macos
+```
+
+###### Use remote-based setup files
+
+When retrieving remote-based setup files, you will need to provide the Git 
+repository url when using the `env:config` command.
+
+```bash
+$ dev env:config git@<git-url>.git
+```
+
+[GitHub Gist](https://gist.github.com/) repositories use a random hash as the 
+Git repositories name. Which can be difficult to remember. You can provide an 
+additional `--directory` option to the `env:config` command, ***DEV.env*** will
+save you GitHub Gist files or Git repositories in the named directory.
+
+```bash
+$ dev env:config git@<git-url>.git --directory=localhost
+```
+
+You can provide an additional `--only` option to the `env:config` 
+command, This will allow ***DEV.env*** to only store the desired configuration 
+files.
+
+```bash
+$ dev env:config git@<git-url>.git --only=macos,vscode
 ```
 
 #### 4. <ins>Setup development environment</ins>
@@ -418,7 +448,7 @@ Your organizations/profile directories will be structured as follows:
 |   +-- repositories.yml
 ```
 
-**Q:** Are you able to share your development environment setup files  
+**Q:** Are you able to share your development environment setup files?  
 **A:** I plan to provide setup templates which will provide developers a 
 starting point. Each developer has their personal preference and I want 
 ***DEV.env*** to be a lightweight tool without having collection of 
@@ -447,6 +477,11 @@ from the command line. This is a great feature if you want to use ***DEV.env***
 to include your VS Code set up part of your development environment set up. You 
 can learn more about command-line extension management in 
 [VS Code user guide](https://code.visualstudio.com/docs/editor/extension-gallery#_command-line-extension-management).
+
+[Localhost SonarQube](https://github.com/luisaveiro/localhost-sonarqube) offers 
+a light-weight command-line interface for interacting with 
+[SonarQube](https://www.sonarqube.org/) *Community Edition* and analyse your 
+source code with SonarScanner (*CLI*) in a Docker environment. 
 
 ## Changelog
 
