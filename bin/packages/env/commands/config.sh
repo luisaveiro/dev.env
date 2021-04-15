@@ -7,6 +7,7 @@
 #
 # Arguments:
 #   --directory
+#   --only
 #   --setup_dir
 #   --name
 #   setup file
