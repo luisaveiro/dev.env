@@ -23,6 +23,8 @@ function command::self_update() {
     shift
   done
 
+  git::fetch --dir="${project_dir}"
+
   latest_tag="$(git::latest_tag --dir="${project_dir}")"
 
   info "Updating $(ansi --bold --white DEV.env) to" \
