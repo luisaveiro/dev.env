@@ -60,7 +60,7 @@ function git::clone() {
 }
 
 #######################################
-# Get the Git hostname.
+# Get the Gist hash.
 #
 # Global:
 #   GIST_REGEX
@@ -93,6 +93,22 @@ function git::hostname() {
   if [[ $1 =~ ${GIT_REGEX} ]]; then
     echo "${BASH_REMATCH[3]}"
   fi
+}
+
+#######################################
+# Check if Git is Gist repository
+#
+# Arguments:
+#   repository
+#
+# Returns:
+#   0 if repository is Gist repository.
+#   1 if repository is not Gist repository.
+#######################################
+function git::is_gist() {
+  local regex="^(https:\/\/|git@)(gist\.github\.com)"
+
+  [[ $1 =~ ${regex} ]] && return 0 || return 1
 }
 
 #######################################
