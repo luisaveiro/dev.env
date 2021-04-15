@@ -176,7 +176,7 @@ $ dev env:config path/development-setup.sh
 ```
 
 By default, ***DEV.env*** will create a symbolic link to your setup file. If 
-youprefer to not have a symbolic link, you can provide the `--no-symlink` 
+you prefer to not have a symbolic link, you can provide the `--no-symlink` 
 option to the `env:config` command.
 
 ```bash
@@ -213,6 +213,10 @@ command, This will allow ***DEV.env*** to only store the desired configuration
 files.
 
 ```bash
+# Only keep macos setup file
+$ dev env:config git@<git-url>.git --only=macos
+
+# Provide multiple files by comma separated list
 $ dev env:config git@<git-url>.git --only=macos,vscode
 ```
 
@@ -234,13 +238,14 @@ $ dev env:setup macos vscode
 
 #### 5. <ins>Add repositories YAML file to DEV.env</ins>
 
-***DEV.env***  allows you to add your pre-existing repositories configuration 
-files. Similar to the `env:config` command, you can provide a local or 
-remote-based repositories configuration file.
+***DEV.env*** allows you to add your pre-existing YAML repositories 
+configuration files. Similar to the `env:config` command, you can provide a 
+local or remote-based repositories configuration file (supports Git 
+repositories and [GitHub Gist](https://gist.github.com/)).
 
 ###### Use local repositories configuration files
 
-When using local repositories configuration files, you only need to provide 
+When using local YAML repositories configuration files, you only need to provide 
 the full path of the repositories configuration file when using the 
 `repos:config` command.
 
@@ -248,19 +253,34 @@ the full path of the repositories configuration file when using the
 $ dev repos:config path/personal.yml
 ```
 
-###### Use remote-based repositories configuration files
-
-However, for remote-based repositories configuration files, there are 
-additional requirements. You need to ensure the file name includes the `.yml` 
-extension in your GitHub Gist. You will need to provide an additional `--name` 
-option to the `repos:config` command, This will allow ***DEV.env*** to only 
-store the desired configuration file since you can include multiple files in 
-your GitHub Gist.
+If you wish to have ***DEV.env*** rename your YAML repositories configuration 
+file, you can provide the `name` option to the `repos:config` command.
 
 ```bash
-$ dev repos:config git@gist.github.com:<gist-hash>.git --name=personal
+$ dev repos:config path/repos.yml --name=personal
 ```
 
+###### Use remote-based repositories configuration files
+
+When retrieving remote-based YAML repositories configuration files, you will 
+need to provide the Git repository url when using the `repos:config` command.
+
+```bash
+$ dev repos:config git@<git-url>.git
+```
+
+By default ***DEV.env*** will store all YAML files in the template directory. 
+You can provide an additional `--only` option to the `repos:config` 
+command, This will allow ***DEV.env*** to only store the desired YAML 
+repositories configuration files.
+
+```bash
+# Only keep personal YAML repositories configuration file
+$ dev repos:config git@<git-url>.git --only=personal
+
+# Provide multiple files by comma separated list
+$ dev repos:config git@<git-url>.git --only=personal,company
+```
 
 #### 6. <ins>Publish DEV.env repositories configuration templates</ins>
 
