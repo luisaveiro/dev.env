@@ -79,7 +79,7 @@ function git::fetch() {
     shift
   done
 
-  _=$(cd "${dir}" && git fetch --all)
+  _=$(cd "${dir}" && git fetch --all 2>&1)
 }
 
 #######################################
