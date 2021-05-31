@@ -485,6 +485,12 @@ to your existing Terminal. You can build autocomplete functionality for any CLI
 with javascript, not bash. You can share it with your team, or contribute to 
 Fig open source specs for tools like `git`, `aws`, `kubectl`.
 
+[Raycast](https://raycast.com/) lets you control your tools with a few 
+keystrokes. It's designed to keep you focused. Provides built-in extensions to 
+connect with common tools like `Asana`, `GitHub`, `Jira`, `Linear`, `Zoom`. 
+Write scripts in your favorite programming language to connect to web APIs or 
+control other tools.
+
 [Swimm](https://swimm.io/) keeps development smooth with smart docs that are 
 always synced with your code. Never let onboarding, outdated documents, or 
 project switching slow you down. Swimm allows you to create walkthroughs or 
@@ -497,6 +503,15 @@ from the command line. This is a great feature if you want to use ***DEV.env***
 to include your VS Code set up part of your development environment set up. You 
 can learn more about command-line extension management in 
 [VS Code user guide](https://code.visualstudio.com/docs/editor/extension-gallery#_command-line-extension-management).
+
+[Awesome Compose](https://github.com/docker/awesome-compose) is curated list of 
+Docker Compose samples that provide a starting point for how to integrate 
+different services using a Compose file and to manage their deployment with 
+Docker Compose.
+
+**Please note:** The following Awesome Compose samples are intended for use in 
+local development environments such as project setups, tinkering with software 
+stacks, etc. These samples must not be deployed in production environments.
 
 [Localhost SonarQube](https://github.com/luisaveiro/localhost-sonarqube) offers 
 a light-weight command-line interface for interacting with 
