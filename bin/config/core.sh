@@ -2,7 +2,8 @@
 #
 # Define global constants.
 
-readonly PROJECT_DIR=$(dirname "${CURRENT_DIR}")
+PROJECT_DIR=$(dirname "${CURRENT_DIR}")
+readonly PROJECT_DIR
 readonly SETUP_DIR="${PROJECT_DIR}/setups"
 readonly TEMPLATES_DIR="${PROJECT_DIR}/templates"
 

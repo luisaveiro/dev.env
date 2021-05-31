@@ -4,7 +4,8 @@
 
 set -e
 
-readonly CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly CURRENT_DIR
 
 # shellcheck source=/dev/null
 source "${CURRENT_DIR}/config/core.sh"
