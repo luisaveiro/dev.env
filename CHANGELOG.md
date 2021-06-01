@@ -6,11 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.1] - 2021-06-01
+### Added
+- Awesome Compose & Raycast to Useful Tips section.
+
+### Fixed
+- Problematic code in the case of readonly ([ShellCheck SC2155](https://github.com/koalaman/shellcheck/wiki/SC2155)).
+
 ## [v0.3.0] - 2021-04-15
 ### Added
 - Configuration functions for `repos` package.
 ### Changed
-- `self-update` command git output to throwaway variable.
+- `self-update` command git output to a throwaway variable.
 - `git::fetch` function output to standard output and error.
 - `repos:config` command accepts git repository as a remote configuration.
 
