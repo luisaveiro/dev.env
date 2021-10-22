@@ -38,6 +38,9 @@ joining a new organization, expected to teach themselves any parts of the
 codebase and architecture they don't know. Developers are also required to set 
 up their local environments quickly and start coding as soon as they can.
 
+YouTuber Frying Pan has a [humorous video](https://youtu.be/YZ5tOe7y9x4) on 
+Software Engineer interns' first day and what they can expect.
+
 ***DEV.env*** is a lightweight command-line interface that provides 
 developer-friendly commands to automate parts of the setup process that 
 developers are expected to perform. This includes local development 
@@ -517,6 +520,9 @@ stacks, etc. These samples must not be deployed in production environments.
 a light-weight command-line interface for interacting with 
 [SonarQube](https://www.sonarqube.org/) *Community Edition* and analyse your 
 source code with SonarScanner (*CLI*) in a Docker environment. 
+
+[free-for.dev](https://free-for.dev) A list of SaaS, PaaS and IaaS offerings 
+that have free tiers of interest to devops and infradev.
 
 ## Changelog
 
