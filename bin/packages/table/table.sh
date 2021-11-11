@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck disable=SC2059
 #
 # Table package.
 
