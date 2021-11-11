@@ -68,7 +68,7 @@ function repos::setup() {
     "$(ansi --bold --white "[OK]")"
 
   # Create variables of yaml elements.
-  eval "${yaml[@]}"
+  eval "${yaml[*]}"
 
   if [[ -z $repository ]]; then
     if [[ ${#yaml_enabled_repositories[@]} -eq 1 ]]; then

@@ -60,7 +60,7 @@ function repos::status() {
   fi
 
   # Create variables of yaml elements.
-  eval "${yaml[@]}"
+  eval "${yaml[*]}"
 
   progressbar::finish --clear
 
