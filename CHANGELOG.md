@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.2] - 2021-11-11
+### Added
+- free-for.dev to Useful Tips section.
+- ShellCheck for Visual Studio Code
+- ShellCheck Directive for variables in the printf format ([ShellCheck SC2059](https://github.com/koalaman/shellcheck/wiki/SC2059)).
+
+### Fixed
+- Problematic code for eval negates the benefit of arrays ([ShellCheck SC2294](https://github.com/koalaman/shellcheck/wiki/SC2294)).
+
 ## [v0.3.1] - 2021-06-01
 ### Added
 - Awesome Compose & Raycast to Useful Tips section.
