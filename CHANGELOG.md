@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.0] - 2021-11-15
+### Added
+- `env:list` command to list of available setup files.
+
+### Fixed
+- `env:config` command from failing due to setup directory does not exist.
+
 ## [v0.3.2] - 2021-11-11
 ### Added
 - free-for.dev to Useful Tips section.
