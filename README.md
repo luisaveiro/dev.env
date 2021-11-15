@@ -122,11 +122,12 @@ environment and repositories.
 | 1 	| dev help          	| List of all available commands.                        	|
 | 2 	| dev self-update   	| Update DEV.env to the latest version.                  	|
 | 3 	| dev env:config    	| Add development environment setup file to DEV.env.     	|
-| 4 	| dev env:setup     	| Setup development environment.                         	|
-| 5 	| dev repos:config  	| Add repositories YAML file to DEV.env.                 	|
-| 6 	| dev repos:publish 	| Publish repositories YAML file to a project directory. 	|
-| 7 	| dev repos:setup   	| Setup Git Repositories from repositories YAML file.    	|
-| 8 	| dev repos:status  	| List all Git Repositories and setup status.            	|
+| 4 	| dev env:list      	| List available development environment setup files.     	|
+| 5 	| dev env:setup     	| Setup development environment.                         	|
+| 6 	| dev repos:config  	| Add repositories YAML file to DEV.env.                 	|
+| 7 	| dev repos:publish 	| Publish repositories YAML file to a project directory. 	|
+| 8 	| dev repos:setup   	| Setup Git Repositories from repositories YAML file.    	|
+| 9 	| dev repos:status  	| List all Git Repositories and setup status.            	|
 
 Below I have provided more information on each ***DEV.env*** CLI command.
 
@@ -223,7 +224,17 @@ $ dev env:config git@<git-url>.git --only=macos
 $ dev env:config git@<git-url>.git --only=macos,vscode
 ```
 
-#### 4. <ins>Setup development environment</ins>
+#### 4. <ins>List available development environment setup files</ins>
+
+***DEV.env*** offers a `env:list` command to show a list of available 
+development environment files in a table view that have been configured using 
+***DEV.env*** `env:config` command.
+
+```bash
+$ dev env:list
+```
+
+#### 5. <ins>Setup development environment</ins>
 
 Once you have added your development environment setup files to ***DEV.env***. 
 You can use the `env:setup` command to run the various setup files to configure 
@@ -239,7 +250,7 @@ $ dev env:setup macos
 $ dev env:setup macos vscode
 ```
 
-#### 5. <ins>Add repositories YAML file to DEV.env</ins>
+#### 6. <ins>Add repositories YAML file to DEV.env</ins>
 
 ***DEV.env*** allows you to add your pre-existing YAML repositories 
 configuration files. Similar to the `env:config` command, you can provide a 
@@ -285,7 +296,7 @@ $ dev repos:config git@<git-url>.git --only=personal
 $ dev repos:config git@<git-url>.git --only=personal,company
 ```
 
-#### 6. <ins>Publish DEV.env repositories configuration templates</ins>
+#### 7. <ins>Publish DEV.env repositories configuration templates</ins>
 
 Before ***DEV.env*** can set up your repositories, you will need to publish a 
 YAML repositories configuration file to your projects root directory. You can 
@@ -328,7 +339,7 @@ directory.
 $ dev repos:publish personal
 ```
 
-#### 7. <ins>Setup git repositories</ins>
+#### 8. <ins>Setup git repositories</ins>
 
 Once you have published your YAML repository configuration file. You will need 
 to provide the following information.
@@ -413,7 +424,7 @@ The `repos:setup` command also accepts a repositories name as an argument.
 $ dev repos:setup repository-name
 ```
 
-#### 8. <ins>Check git repositories setup status</ins>
+#### 9. <ins>Check git repositories setup status</ins>
 
 Although you are not required to use ***DEV.env*** to manage your development 
 environment, ***DEV.env*** does offer a `repos:status` command to show a list 
