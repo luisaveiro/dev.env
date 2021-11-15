@@ -41,6 +41,17 @@ function env::config() {
   # Strip out whitespaces
   setup_file="${setup_file//[[:blank:]]/}"
 
+  if ! directory_exists "${setup_dir}"; then
+    info "Directory $(ansi --bold --white "$(basename -- "${setup_dir}")")" \
+      "doesn't exists."
+
+    info --newline \
+      "Creating $(ansi --bold --white "$(basename -- "${setup_dir}")")" \
+      "directory..."
+
+    mkdir "${setup_dir}"
+  fi
+
   if ! is_file_remote "${setup_file}"; then
     env::local_configuration \
       --setup_dir="${setup_dir}" \
