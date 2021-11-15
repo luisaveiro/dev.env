@@ -2,7 +2,7 @@
 #
 # DEV.env package.
 
-readonly ENV_DIR="${PACKAGES_DIR}/ENV"
+readonly ENV_DIR="${PACKAGES_DIR}/env"
 
 readonly ENV_DEPENDENCIES=(
   "${PACKAGES_DIR}/table/table"
