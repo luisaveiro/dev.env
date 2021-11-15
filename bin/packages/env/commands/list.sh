@@ -7,9 +7,6 @@
 #
 # Arguments:
 #   --setup_dir
-#
-# Returns:
-#   1 if setup file does not exists.
 #######################################
 function env::list() {
   local arguments_list=("setup_dir")
