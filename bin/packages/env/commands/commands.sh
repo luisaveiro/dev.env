@@ -6,6 +6,7 @@ readonly ENV_COMMANDS_DIR="${ENV_DIR}/commands"
 
 readonly ENV_COMMANDS=(
   "config"
+  "list"
   "setup"
 )
 

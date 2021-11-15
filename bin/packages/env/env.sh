@@ -5,6 +5,7 @@
 readonly ENV_DIR="${PACKAGES_DIR}/ENV"
 
 readonly ENV_DEPENDENCIES=(
+  "${PACKAGES_DIR}/table/table"
   "${ENV_DIR}/functions/functions"
   "${ENV_DIR}/commands/commands"
 )
@@ -33,6 +34,9 @@ function package::env() {
     case "$arg" in
       config)
         env::config --setup_dir="${SETUP_DIR}" "$@"
+        break;;
+      list)
+        env::list --setup_dir="${SETUP_DIR}"
         break;;
       setup)
         env::setup --setup_dir="${SETUP_DIR}" "$@"

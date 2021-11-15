@@ -10,11 +10,13 @@ function env::help() {
 
   local commands=(
     "env:config"
+    "env:list"
     "env:setup"
   )
 
   local descriptions=(
     "Add development environment setup file to DEV.env"
+    "List available development environment setup files"
     "Setup your development environment "
   )
 
