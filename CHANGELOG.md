@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.1] - 2021-11-15
+### Fixed
+- Env package directory case-sensitivity.
+
 ## [v0.4.0] - 2021-11-15
 ### Added
 - `env:list` command to list of available setup files.
