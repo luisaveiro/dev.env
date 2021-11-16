@@ -30,14 +30,14 @@ function env::list() {
   for setup_file in ${setup_dir}
   do
     if [[ ! -f "${setup_file}" ]]; then
-      break
+      continue
     fi
 
     file_name="$(file_name "${setup_file}")"
     extension="$(file_extension "${file_name}")"
 
     if [[ "${extension}" != "sh" ]]; then
-      break
+      continue
     fi
 
     [[ -L "${setup_file}" ]] &&
