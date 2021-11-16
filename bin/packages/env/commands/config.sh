@@ -45,7 +45,7 @@ function env::config() {
     info "Directory $(ansi --bold --white "$(basename -- "${setup_dir}")")" \
       "doesn't exists."
 
-    info --newline \
+    info --newline=bottom \
       "Creating $(ansi --bold --white "$(basename -- "${setup_dir}")")" \
       "directory..."
 
