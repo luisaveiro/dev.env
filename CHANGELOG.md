@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.2] - 2021-11-16
+### Fixed
+- Typo for newline in `env:config` command info message.
+- `env:list` command exit early in loop while searching for setup files.
+
 ## [v0.4.1] - 2021-11-15
 ### Fixed
 - Env package directory case-sensitivity.
