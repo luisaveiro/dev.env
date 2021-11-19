@@ -6,10 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2021-11-19
+### Added
+- `prototype:new` command to create new prototype projects.
+- `prototype:samples` command to list available Docker Compose samples. 
+- `help::command_max_tabs` function to change the max tabs length for help menu.
+- Global variable `SAMPLE_DIR` in config.
+- `question` output message function.
+
+### Changed
+- Help menu formatting to support the new prototype package commands.
+- `output` function to support no trailing flag when echoing message.
+
+### Fixed
+- `package::load` error message format.
+
 ## [v0.4.2] - 2021-11-16
 ### Fixed
 - Typo for newline in `env:config` command info message.
-- `env:list` command exit early in loop while searching for setup files.
+- `env:list` command exits early in the loop while searching for setup files.
 
 ## [v0.4.1] - 2021-11-15
 ### Fixed
