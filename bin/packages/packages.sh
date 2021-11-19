@@ -76,7 +76,8 @@ function package::load() {
   local package=$1
 
   if ! package::exists "${package}"; then
-    error "The $(ansi --bold --white "$( dirname "${package}")")" \
+    error --newline=top \
+      "The $(ansi --bold --white "$( dirname "${package}")")" \
       "package does not exists."
 
     exit 1

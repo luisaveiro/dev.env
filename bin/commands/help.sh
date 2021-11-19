@@ -50,7 +50,8 @@ function command::help() {
   output "$(ansi --italic "${tagline}")"
 
   help::boilerplate
-  help::command_max_length 13
+  help::command_max_length 17
+  help::command_max_tabs 2
 
   for index in "${!commands[@]}"
   do
