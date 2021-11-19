@@ -44,7 +44,8 @@ Software Engineer interns' first day and what they can expect.
 ***DEV.env*** is a lightweight command-line interface that provides 
 developer-friendly commands to automate parts of the setup process that 
 developers are expected to perform. This includes local development 
-environments and projects (git-based repositories).
+environments, projects (git-based repositories) and rapid prototyping 
+(docker-based).
 
 <p align="center">
     <a href="http://github.com/luisaveiro/dev.env">
@@ -71,6 +72,10 @@ You will need to make sure your system meets the following prerequisites:
 your repositories. So, before using the CLI commands, make sure you have Git 
 installed on your system, set up SSH credentials and have access to the 
 repositories you are cloning in advance.
+
+***DEV.env*** prototyping feature utilizes [Docker Awesome Compose GitHub Repo](https://github.com/docker/awesome-compose)
+to provide prototyping samples. You will need to have Docker and Docker Compose 
+installed on your system to use the Awesome Docker Compose samples.
 
 ## Download
 
@@ -117,17 +122,19 @@ your development environment, as well as cloning and setting up your project
 repositories. The following commands are available for you to manage your 
 environment and repositories.
 
-| # 	| Commands          	| Description                                            	|
-|---	|-------------------	|--------------------------------------------------------	|
-| 1 	| dev help          	| List of all available commands.                        	|
-| 2 	| dev self-update   	| Update DEV.env to the latest version.                  	|
-| 3 	| dev env:config    	| Add development environment setup file to DEV.env.     	|
-| 4 	| dev env:list      	| List available development environment setup files.     	|
-| 5 	| dev env:setup     	| Setup development environment.                         	|
-| 6 	| dev repos:config  	| Add repositories YAML file to DEV.env.                 	|
-| 7 	| dev repos:publish 	| Publish repositories YAML file to a project directory. 	|
-| 8 	| dev repos:setup   	| Setup Git Repositories from repositories YAML file.    	|
-| 9 	| dev repos:status  	| List all Git Repositories and setup status.            	|
+| #  	| Commands          	| Description                                            	|
+|----	|-------------------	|--------------------------------------------------------	|
+| 1  	| dev help          	| List of all available commands.                        	|
+| 2  	| dev self-update   	| Update DEV.env to the latest version.                  	|
+| 3  	| dev env:config    	| Add development environment setup file to DEV.env.     	|
+| 4  	| dev env:list      	| List available development environment setup files     	|
+| 5  	| dev env:setup     	| Setup development environment.                         	|
+| 6  	| prototype:new     	| Start a new prototype using Docker Compose samples.    	|
+| 7  	| prototype:samples 	| List Docker Compose samples                            	|
+| 8  	| dev repos:config  	| Add repositories YAML file to DEV.env.                 	|
+| 9  	| dev repos:publish 	| Publish repositories YAML file to a project directory. 	|
+| 10 	| dev repos:setup   	| Setup Git Repositories from repositories YAML file.    	|
+| 11 	| dev repos:status  	| List all Git Repositories and setup status.            	|
 
 Below I have provided more information on each ***DEV.env*** CLI command.
 
@@ -250,7 +257,37 @@ $ dev env:setup macos
 $ dev env:setup macos vscode
 ```
 
-#### 6. <ins>Add repositories YAML file to DEV.env</ins>
+#### 6. <ins>Start a new prototype using Docker Compose samples</ins>
+
+***DEV.env*** prototyping feature utilizes [Docker Awesome Compose GitHub Repo](https://github.com/docker/awesome-compose)
+to provide prototyping samples. The `prototype:new` command provides two 
+methods to set up prototype project: selecting a prototype sample from the 
+list or providing a Docker Compose sample name.
+
+```bash
+$ dev prototype:new
+
+# Setup the angular Docker Compose sample
+$ dev prototype angular
+```
+
+If you don't provide a Docker Compose sample name as an argument for 
+`prototype:new` command, ***DEV.env*** will provide you a list of available 
+Docker Compose samples.
+
+The `prototype:new` command will copy all the files for your selected Docker 
+Compose sample into the current directory of your terminal.
+
+#### 7. <ins>List Docker Compose samples</ins>
+
+The `prototype:samples` command is similar to the `prototype:new` command. However,
+this command won't copy Docker Compose sample files. This command can be considered
+as a "read-only" command.
+
+Both commands will automatically fetch the latest commits from [Docker Awesome Compose GitHub Repo](https://github.com/docker/awesome-compose)
+to ensure you always have the latest changes and Docker Compose samples.
+
+#### 8. <ins>Add repositories YAML file to DEV.env</ins>
 
 ***DEV.env*** allows you to add your pre-existing YAML repositories 
 configuration files. Similar to the `env:config` command, you can provide a 
@@ -296,7 +333,7 @@ $ dev repos:config git@<git-url>.git --only=personal
 $ dev repos:config git@<git-url>.git --only=personal,company
 ```
 
-#### 7. <ins>Publish DEV.env repositories configuration templates</ins>
+#### 9. <ins>Publish DEV.env repositories configuration templates</ins>
 
 Before ***DEV.env*** can set up your repositories, you will need to publish a 
 YAML repositories configuration file to your projects root directory. You can 
@@ -339,7 +376,7 @@ directory.
 $ dev repos:publish personal
 ```
 
-#### 8. <ins>Setup git repositories</ins>
+#### 10. <ins>Setup git repositories</ins>
 
 Once you have published your YAML repository configuration file. You will need 
 to provide the following information.
@@ -424,7 +461,7 @@ The `repos:setup` command also accepts a repositories name as an argument.
 $ dev repos:setup repository-name
 ```
 
-#### 9. <ins>Check git repositories setup status</ins>
+#### 11. <ins>Check git repositories setup status</ins>
 
 Although you are not required to use ***DEV.env*** to manage your development 
 environment, ***DEV.env*** does offer a `repos:status` command to show a list 
