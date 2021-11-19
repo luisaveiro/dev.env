@@ -38,6 +38,7 @@ function main() {
     command::help \
       --project_dir="${PROJECT_DIR}" \
       --package=env \
+      --package=prototype \
       --package=repos
 
     exit 0
