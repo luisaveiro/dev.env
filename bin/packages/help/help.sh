@@ -46,9 +46,6 @@ function help::add_command() {
 #
 # Globals:
 #   HELP_COMMAND_MAX_LENGTH
-#
-# Arguments:
-#   length
 #######################################
 function help::boilerplate() {
   output "\n$(ansi --bold --yellow Usage:)"
@@ -57,10 +54,23 @@ function help::boilerplate() {
 }
 
 #######################################
-# Set command manx character length.
+# Set command max character length.
+#
+# Arguments:
+#   length
 #######################################
 function help::command_max_length() {
   HELP_COMMAND_MAX_LENGTH=$1
+}
+
+#######################################
+# Set command max tabs length.
+#
+# Arguments:
+#   length
+#######################################
+function help::command_max_tabs() {
+  HELP_COMMAND_TABS=$1
 }
 
 #######################################
