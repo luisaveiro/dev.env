@@ -90,13 +90,14 @@ function info() {
 # Arguments:
 #   --overwrite
 #   --newline
+#   --no-trailing
 #   Message
 #
 # Outputs:
 #   Writes message to stdout.
 #######################################
 function output() {
-  local text overwrite newlines=() messages
+  local text overwrite newlines=() messages trailing="yes"
 
   messages=$*
 
@@ -113,6 +114,12 @@ function output() {
       IFS='=' read -ra parameter <<< "${argument}"
       newlines+=("${parameter[1]}")
     fi
+
+    if [[ $1 == *"--no-trailing"* ]]; then
+      trailing="no"
+      messages="${messages/--no-trailing/}"
+    fi
+
     shift
   done
 
@@ -127,7 +134,11 @@ function output() {
     text="${overwrite}${text}"
   fi
 
-  echo -e "${text}"
+  if [[ "${trailing}" == "yes" ]]; then
+    echo -e "${text}"
+  else
+    echo -e -n "${text} "
+  fi
 
   if [[ ${newlines[*]} =~ "bottom" ]]; then
     newline
@@ -139,6 +150,18 @@ function output() {
 #######################################
 function newline() {
   echo -e ""
+}
+
+#######################################
+# Output question message to terminal.
+#
+# Arguments:
+#   --overwrite
+#   --newline
+#   Message
+#######################################
+function question() {
+  output --no-trailing "$(ansi --bold --color=11 QUESTION:)" "$@"
 }
 
 #######################################
