@@ -34,6 +34,8 @@ source "${CURRENT_DIR}/packages/packages.sh"
 function main() {
   local package command
 
+  supportUkraine
+
   if [ $# == 0 ] || [ "${1}" == 'help' ]; then
     command::help \
       --project_dir="${PROJECT_DIR}" \

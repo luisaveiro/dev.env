@@ -85,6 +85,13 @@ function info() {
 }
 
 #######################################
+# Output a new line to terminal.
+#######################################
+function newline() {
+  echo -e ""
+}
+
+#######################################
 # Output message to terminal.
 #
 # Arguments:
@@ -146,13 +153,6 @@ function output() {
 }
 
 #######################################
-# Output a new line to terminal.
-#######################################
-function newline() {
-  echo -e ""
-}
-
-#######################################
 # Output question message to terminal.
 #
 # Arguments:
@@ -162,6 +162,22 @@ function newline() {
 #######################################
 function question() {
   output --no-trailing "$(ansi --bold --color=11 QUESTION:)" "$@"
+}
+
+#######################################
+# Output support Ukraine message to terminal.
+#######################################
+function supportUkraine() {
+  hashtag="$(ansi --bold --white --bg-blue "#StandWith")"
+  hashtag="${hashtag}$(ansi --bold --black --bg-yellow Ukraine)"
+
+  output --newline=top "${hashtag}"
+
+  quote="It's not enough that we do our best; sometimes we have to do what's required."
+  output "$(ansi --italic "${quote}") — $(ansi --bold Winston Churchill)."
+
+  output --newline=bottom "Support Ukraine by visiting" \
+    "$(ansi --bold --white https://supportukrainenow.org)"
 }
 
 #######################################
