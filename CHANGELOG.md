@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2022-04-03
+### Added
+- Support Ukraine message to terminal and readme.
+
 ## [0.5.0] - 2021-11-19
 ### Added
 - `prototype:new` command to create new prototype projects.
