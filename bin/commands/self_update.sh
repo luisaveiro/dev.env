@@ -27,8 +27,15 @@ function command::self_update() {
 
   latest_tag="$(git::latest_tag --dir="${project_dir}")"
 
-  info "Updating $(ansi --bold --white DEV.env) to" \
-    "$(ansi --bold --white "${latest_tag}")"
+  info "[1/1] Updating $(ansi --bold --white DEV.env)" \
+    "to $(ansi --bold --white "${latest_tag}") ..."
 
-  _=$(cd "${project_dir}" && git checkout "${latest_tag}" 2>&1)
+  progressbar::start
+  progressbar::half
+  progressbar::finish --clear
+
+  info --overwrite "[1/1] Updating $(ansi --bold --white DEV.env)" \
+    "to $(ansi --bold --white "${latest_tag}") $(ansi --bold --white "[OK]")"
+
+  git::checkout --dir="${project_dir}" --branch="${latest_tag}"
 }
