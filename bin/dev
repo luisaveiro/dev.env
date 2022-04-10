@@ -17,6 +17,9 @@ source "${CURRENT_DIR}/functions/functions.sh"
 source "${CURRENT_DIR}/commands/commands.sh"
 
 # shellcheck source=/dev/null
+source "${CURRENT_DIR}/messages/messages.sh"
+
+# shellcheck source=/dev/null
 source "${CURRENT_DIR}/packages/packages.sh"
 
 #######################################
@@ -34,7 +37,7 @@ source "${CURRENT_DIR}/packages/packages.sh"
 function main() {
   local package command
 
-  supportUkraine
+  message::supportUkraine
 
   if [ $# == 0 ] || [ "${1}" == 'help' ]; then
     command::help \
