@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2022-04-10
+### Added
+- `messages` namespace for repeatable output messages.
+- `git::checkout` function to `git` package.
+
+### Changed
+- Improved output messages.
+- `progressbar` package is a core package dependency.
+
 ## [0.5.1] - 2022-04-03
 ### Added
 - Support Ukraine message to terminal and readme.
