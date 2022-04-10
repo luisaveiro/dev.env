@@ -8,6 +8,7 @@ readonly PACKAGES=(
   "ansi/ansi.sh"
   "git/git.sh"
   "help/help.sh"
+  "progressbar/progressbar.sh"
 )
 
 #######################################

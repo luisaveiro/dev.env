@@ -5,7 +5,6 @@
 readonly REPOS_DIR="${PACKAGES_DIR}/repos"
 
 readonly REPOS_DEPENDENCIES=(
-  "${PACKAGES_DIR}/progressbar/progressbar"
   "${PACKAGES_DIR}/table/table"
   "${PACKAGES_DIR}/yaml/yaml"
   "${REPOS_DIR}/commands/commands"
