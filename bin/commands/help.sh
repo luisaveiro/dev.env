@@ -49,6 +49,9 @@ function command::help() {
 
   output "$(ansi --italic "${tagline}")"
 
+  output --newline=top "- Star or contribute to DEV.env:"
+  echo "  $(ansi --bold --white https://github.com/luisaveiro/dev.env)"
+
   help::boilerplate
   help::command_max_length 17
   help::command_max_tabs 2
