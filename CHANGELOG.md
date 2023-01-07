@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.6.1] - 2023-01-07
 ### Fixed
 - ShellCheck Docker image tag.
+- Declaration multiple modifiers in one declaration ([ShellCheck SC2316](https://github.com/koalaman/shellcheck/wiki/SC2316)).
+- Arithmetic expression wrapped in parentheses ([ShellCheck SC2323](https://github.com/koalaman/shellcheck/wiki/SC2323)).
+- Unnecessary ${} on regular variables in arithmetic contexts ([ShellCheck SC2004](https://github.com/koalaman/shellcheck/wiki/SC2004)).
 
 ## [0.6.0] - 2022-04-10
 ### Added
