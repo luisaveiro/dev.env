@@ -2,7 +2,8 @@
 #
 # Simple package manager to load third-party packages.
 
-export readonly PACKAGES_DIR="${CURRENT_DIR}/packages"
+readonly PACKAGES_DIR="${CURRENT_DIR}/packages"
+export PACKAGES_DIR
 
 readonly PACKAGES=(
   "ansi/ansi.sh"
