@@ -32,7 +32,7 @@ function table::configure_row_numbers() {
       array_column_end="${table_total_columns}"
     else
       array_column_end=$(( (row_index + 1) * table_total_columns ))
-      array_column_start=$(( (array_column_end - table_total_columns) ))
+      array_column_start=$(( array_column_end - table_total_columns ))
     fi
 
     local row_records=(
@@ -115,7 +115,7 @@ function table::display() {
 
       if [[ ${#column} -gt ${column_current_length} ]];
       then
-        table_columns_lengths[${column_index}]=${#column}
+        table_columns_lengths[column_index]=${#column}
       fi
 
       ((array_index++))
