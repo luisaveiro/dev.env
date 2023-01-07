@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2023-01-07
+### Fixed
+- ShellCheck Docker image tag.
+
 ## [0.6.0] - 2022-04-10
 ### Added
 - `messages` namespace for repeatable output messages.
