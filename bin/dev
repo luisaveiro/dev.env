@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+# DEV.env main executable shell script.
+
+set -e
+
+#######################################
+# Prevent Sourcing
+#
+# Firstly, we need to ensure DEV.env
+# is executed in a new shell process.
+#######################################
+
+if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
+  echo >&2 "ERROR: \`DEV.env\` cannot be sourced."
+
+  exit 1
+fi
+
+#######################################
+# Load Environment Variables
+#
+# Secondly, we need our environment
+# variables.
+#######################################
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly BIN_DIR
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/env/dotenv.sh"
+
+#######################################
+# Define Global Constant
+#
+# Thirdly, we determine the DEV.env
+# directory.
+#######################################
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/config/_config.sh"
+
+#######################################
+# Load Dependencies
+#
+# Next, we "glue" all the components of
+# DEV.env and source them.
+#######################################
+
+if [[ ! "$( ls -A "${BIN_DIR}/packages" )" ]]; then
+  echo >&2 "ERROR: missing dependencies for \`DEV.env\`."
+
+  exit 1
+fi
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/lib/_lib.sh"
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/bootstrap/app.sh"
+
+#######################################
+# Run The Application
+#
+# Finally, we execute the DEV.env
+# application.
+#######################################
+
+main "$@"
