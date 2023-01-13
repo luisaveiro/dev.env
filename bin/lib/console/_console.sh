@@ -8,6 +8,7 @@
 
 readonly CONSOLE_DEPENDENCIES=(
   "input"
+  "message"
   "output"
   "progressbar"
 )

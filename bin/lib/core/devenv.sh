@@ -18,7 +18,10 @@
 #   1 if the command is not supported.
 #######################################
 function devenv::console() {
+  local exclude_commands=("about" "version")
+
   if [ $# == 0 ]; then
+    message::supportUkraine
     command::usage
 
     exit 0
@@ -57,6 +60,10 @@ function devenv::console() {
             "$(ansi --bold --white "${APP_COMMAND} --help")"
 
           exit 1
+        fi
+
+        if [[ "${exclude_commands[*]}" != *"${argument}"* ]]; then
+          message::supportUkraine
         fi
 
         # Execute the DEV.env command.
