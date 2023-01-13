@@ -36,6 +36,18 @@ function devenv::console() {
       *)
         local cli_command="command::${argument//-/_}"
 
+        # If the command does not exist, try loading a module.
+        if [[ $( type -t "${cli_command}" ) != function ]]; then
+          module="$(cut -d':' -f1 <<< "${argument}")"
+          condition="(^|[[:space:]])${module}($|[[:space:]])"
+
+          if [[ "${MODULES_LIST[*]}" =~ ${condition} ]]; then
+            module::load "${module}"
+            cli_command="${argument//:/::command_}"
+            cli_command="${cli_command//-/_}"
+          fi
+        fi
+
         if [[ $( type -t "${cli_command}" ) != function ]]; then
           console::error --margin-top --margin-bottom \
             "Command $(ansi --bold --white "${argument}" ) is not supported."
