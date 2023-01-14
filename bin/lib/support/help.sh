@@ -110,6 +110,9 @@ function help::contribute() {
 #   HELP_COMMAND_TEXT_MAX_LENGTH
 #   HELP_DESCRIPTION_SPACING
 #
+# Arguments:
+#   --enable-title
+#
 # Outputs:
 #   Writes the available commands
 #   and description to stdout.

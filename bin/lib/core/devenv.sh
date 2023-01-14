@@ -7,6 +7,7 @@
 #
 # Globals:
 #   APP_COMMAND
+#   MODULES_LIST
 #
 # Arguments:
 #   User input
