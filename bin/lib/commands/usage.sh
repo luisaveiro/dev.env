@@ -10,6 +10,7 @@
 #   APP_TAGLINE
 #   APP_COMMAND
 #   GIT_REPOSITORY
+#   MODULES_LIST
 #
 # Outputs:
 #   Writes usage options to stdout.
@@ -48,7 +49,17 @@ function command::usage() {
     --has-arguments \
     --has-options
 
-  help::display_commands
+  help::display_commands --enable-title
+
+  for module in "${MODULES_LIST[@]}"; do
+    module::load "${module}"
+
+    module_command="${module}::command_usage"
+
+    if [[ $( type -t "${module_command}" ) == function ]]; then
+      "${module_command}"
+    fi
+  done
 
   help::display_useful_tips \
     --command_name="${APP_COMMAND}"
