@@ -8,6 +8,7 @@
 
 readonly REPOS_COMMANDS=(
   "list"
+  "publish"
   "usage"
 )
 
