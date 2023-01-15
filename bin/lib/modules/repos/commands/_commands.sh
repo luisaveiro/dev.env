@@ -7,6 +7,7 @@
 #######################################
 
 readonly REPOS_COMMANDS=(
+  "list"
   "usage"
 )
 
