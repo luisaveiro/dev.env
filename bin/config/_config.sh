@@ -12,6 +12,7 @@ readonly CONFIGS=(
   "git"
   "help"
   "modules"
+  "repos"
 )
 
 #######################################
