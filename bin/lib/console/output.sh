@@ -112,7 +112,7 @@ function console::output() {
 #   Writes message to stdout.
 #######################################
 function console::question() {
-  console::output --no-trailing "$(ansi --bold --color=11 QUESTION:)" "$@"
+  console::output --no-trailing "$(ansi --bold --bg-color=11 QUESTION:)" "$@"
 }
 
 #######################################
