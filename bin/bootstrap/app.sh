@@ -28,5 +28,20 @@ function main() {
     exit 1
   fi
 
+  if ! os::has_installed git; then
+    console::error --margin-top --margin-bottom "Git is not installed!"
+
+    # Git download URL.
+    local url="https://git-scm.com"
+    readonly url
+
+    console::output \
+      "$(ansi --bold --white "${APP_NAME}") requires Git to update to the" \
+      "latest version. Please installed Git via" \
+      "$(ansi --bold --white --underline "${url}")."
+
+    exit 1
+  fi
+
   devenv::console "$@"
 }
