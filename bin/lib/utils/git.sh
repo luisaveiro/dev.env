@@ -69,6 +69,57 @@ function git::checkout() {
 }
 
 #######################################
+# Git clone repository
+#
+# Arguments:
+#   --branch
+#   --dir
+#   --repo
+#   flags
+#
+# Returns:
+#   1 git clone fails or if repository directory exists.
+#   0 git clone successful.
+#######################################
+function git::clone() {
+  local arguments_list=("branch" "dir" "repo")
+  local branch
+  local dir
+  local flags="${*}"
+  local git_command
+  local git_command_parameters
+  local repo
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--"* && $1 == *"="* ]]; then
+      local argument="${1/--/}"
+      IFS='=' read -ra parameter <<< "${argument}"
+
+      if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
+        flags="${flags/--${argument}/}"
+        declare "${parameter[0]}"="${parameter[1]}"
+      fi
+    fi
+
+    shift
+  done
+
+  IFS=' ' read -ra flags <<< "${flags}"
+
+  if [[ -n "${branch}" ]]; then
+    branch="--branch ${branch}"
+  fi
+
+  git_command_parameters="${flags[*]} ${repo} ${dir} ${branch}"
+
+  IFS=' ' read -ra git_command_parameters <<< "${git_command_parameters}"
+
+  git_command=$(git clone "${git_command_parameters[@]}" 2>&1)
+
+  [[ -n $git_command ]] && return 1 || return 0
+}
+
+#######################################
 # Download objects and refs from the
 # repository's remote.
 #
@@ -90,6 +141,20 @@ function git::fetch() {
   done
 
   _="$( cd "${dir}" && git fetch --all 2>&1 )"
+}
+
+#######################################
+# Check if Git URL is valid.
+#
+# Arguments:
+#   Git URL
+#
+# Returns:
+#   0 if Git URL is valid.
+#   1 if Git URL is not valid.
+#######################################
+function git::is_valid_git_url() {
+  [[ $1 =~ ^(https:\/\/|git@) && $1 == *".git"  ]] && return 0 || return 1
 }
 
 #######################################
