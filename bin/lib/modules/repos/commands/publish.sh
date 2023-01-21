@@ -20,7 +20,20 @@
 #######################################
 function repos::command_publish() {
   local template_name="${REPOS_TEMPLATE_YAML}"
-  local user_template="${1}"
+  local use_symlink=true
+  local user_template="$*"
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--no-symlink"* ]]; then
+        user_template="${user_template/--no-symlink/}"
+        use_symlink=false
+    fi
+
+    shift
+  done
+
+  # Strip out whitespaces
+  user_template="${user_template//[[:blank:]]/}"
 
   if filesystem::does_file_exists "$(pwd)/${REPOS_YAML}"; then
     console::warning --margin-bottom \
@@ -36,7 +49,7 @@ function repos::command_publish() {
 
   if [ -n "${user_template}" ]; then
     # Set preferred .yaml extension
-    template_name="${template_name%.*}.yaml"
+    template_name="${user_template%.*}.yaml"
   fi
 
   if ! filesystem::does_file_exists "${TEMPLATE_DIR}/${template_name}"; then
@@ -51,7 +64,15 @@ function repos::command_publish() {
     exit 1
   fi
 
-  cp "${TEMPLATE_DIR}/${template_name}" "$(pwd)/${REPOS_YAML}"
+  if [[
+    "${use_symlink}" == false || "${template_name}" == "${REPOS_TEMPLATE_YAML}"
+  ]]; then
+    cp "${TEMPLATE_DIR}/${template_name}" "$(pwd)/${REPOS_YAML}"
+  else
+    filesystem::create_symlink \
+      --original="${TEMPLATE_DIR}/${template_name}" \
+      --link="$(pwd)/${REPOS_YAML}"
+  fi
 
   console::info \
     "Published $(ansi --bold --white "${REPOS_YAML}") using" \
