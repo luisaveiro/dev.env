@@ -20,6 +20,7 @@ readonly REPOS_MODULE_DIR="${MODULE_DIR}/${MODULE_NAME}"
 
 readonly REPOS_DEPENDENCIES=(
   "commands"
+  "services"
 )
 
 #######################################
