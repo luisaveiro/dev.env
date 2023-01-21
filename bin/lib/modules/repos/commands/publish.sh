@@ -8,6 +8,7 @@
 #
 # Global:
 #   APP_COMMAND
+#   REPOS_TEMPLATE_YAML
 #   REPOS_YAML
 #   TEMPLATE_DIR
 #
@@ -18,7 +19,7 @@
 #   Writes usage options to stdout.
 #######################################
 function repos::command_publish() {
-  local template_name="repositories-template.yml"
+  local template_name="${REPOS_TEMPLATE_YAML}"
   local user_template="${1}"
 
   if filesystem::does_file_exists "$(pwd)/${REPOS_YAML}"; then
@@ -34,7 +35,8 @@ function repos::command_publish() {
   fi
 
   if [ -n "${user_template}" ]; then
-    template_name="${user_template//.yml/}.yml"
+    # Set preferred .yaml extension
+    template_name="${template_name%.*}.yaml"
   fi
 
   if ! filesystem::does_file_exists "${TEMPLATE_DIR}/${template_name}"; then
@@ -51,7 +53,7 @@ function repos::command_publish() {
 
   cp "${TEMPLATE_DIR}/${template_name}" "$(pwd)/${REPOS_YAML}"
 
-  console::info --margin-bottom \
+  console::info \
     "Published $(ansi --bold --white "${REPOS_YAML}") using" \
     "$(ansi --bold --white "${template_name}") repository template file."
 }
