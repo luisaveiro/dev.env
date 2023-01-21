@@ -7,6 +7,7 @@
 #######################################
 
 readonly REPOS_COMMANDS=(
+  "add_config"
   "list"
   "publish"
   "usage"
