@@ -23,7 +23,7 @@ function repos::command_list() {
     fi
 
     template="$( filesystem::file_name "${template}" )"
-    templates+=("${template//.yml/}")
+    templates+=("${template//.yaml/}")
   done
 
   if [ "${#templates[@]}" -eq 1 ]; then
