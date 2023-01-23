@@ -40,7 +40,7 @@ function repos::command_publish() {
       "$(ansi --bold --white "${REPOS_YAML}") exists."
 
     console::output \
-      "Unable to publish repository template file because this project" \
+      "Unable to publish repository template file because this directory" \
       "($(ansi --bold --white "$( basename "$(pwd)" )")) already has a" \
       "$(ansi --bold --white "${REPOS_YAML}") file."
 
@@ -69,7 +69,7 @@ function repos::command_publish() {
   ]]; then
     cp "${TEMPLATE_DIR}/${template_name}" "$(pwd)/${REPOS_YAML}"
   else
-    filesystem::create_symlink \
+    symlink::create \
       --original="${TEMPLATE_DIR}/${template_name}" \
       --link="$(pwd)/${REPOS_YAML}"
   fi

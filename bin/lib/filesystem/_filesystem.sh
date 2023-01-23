@@ -9,6 +9,7 @@
 readonly FILESYSTEM_DEPENDENCIES=(
   "directories"
   "files"
+  "symlink"
 )
 
 #######################################

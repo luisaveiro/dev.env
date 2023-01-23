@@ -102,7 +102,7 @@ function repo_configuration::copy_config_file() {
   if [[ "${use_symlink}" == false ]]; then
     cp "${config_file}" "${TEMPLATE_DIR}/${file_name}"
   else
-    filesystem::create_symlink \
+    symlink::create \
       --original="${config_file}" \
       --link="${TEMPLATE_DIR}/${file_name}"
   fi
