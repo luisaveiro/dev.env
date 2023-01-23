@@ -109,12 +109,12 @@ function repos::command_add_config() {
   fi
 
   if ! filesystem::is_remote_file "${config_file}"; then
-    repos::add_local_configuration \
+    configuration::add_local_configuration \
       --config_file="${config_file}" \
       --rename="${rename}" \
       --use_symlink="${use_symlink}"
   else
-    repos::add_remote_configuration \
+    configuration::add_remote_configuration \
       --git_repo_url="${config_file}" \
       --rename="${rename}" \
       --only_include="${only_include}"

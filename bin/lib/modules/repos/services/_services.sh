@@ -7,8 +7,7 @@
 #######################################
 
 readonly REPOS_SERVICES=(
-  "repo_configuration"
-  "repos"
+  "configuration"
 )
 
 #######################################
