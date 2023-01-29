@@ -22,7 +22,6 @@ function dotenv::get() {
   while [ $# -gt 0 ]; do
     if [[ $1 == *"--"* && $1 == *"="* ]]; then
       local argument="${1/--/}"
-
       IFS='=' read -ra parameter <<< "${argument}"
 
       if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
