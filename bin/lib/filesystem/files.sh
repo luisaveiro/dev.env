@@ -30,9 +30,9 @@ function filesystem::file_extension() {
 
   if [[ "${file_name}" == *"."* ]]; then
     file_name="$(filesystem::file_name "${file_name}")"
-    echo "${file_name#*.}"
+    console::output "${file_name#*.}"
   else
-    echo ""
+    console::output ""
   fi
 }
 
@@ -67,7 +67,7 @@ function filesystem::file_path() {
     file_path="$(pwd)"
   fi
 
-  echo "${file_path}"
+  console::output "${file_path}"
 }
 
 #######################################
