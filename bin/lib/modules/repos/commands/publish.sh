@@ -7,7 +7,10 @@
 # to a project directory.
 #
 # Global:
+#   APP_NAME
 #   APP_COMMAND
+#   HOME
+#   PROJECT_DIR
 #   REPOS_TEMPLATE_YAML
 #   REPOS_YAML
 #   TEMPLATE_DIR
@@ -25,12 +28,26 @@ function repos::command_publish() {
 
   while [ $# -gt 0 ]; do
     if [[ $1 == *"--no-symlink"* ]]; then
-        user_template="${user_template/--no-symlink/}"
-        use_symlink=false
+      user_template="${user_template/--no-symlink/}"
+      use_symlink=false
     fi
 
     shift
   done
+
+  if [[ "$(pwd)" == "${PROJECT_DIR}" ]]; then
+    console::warning --margin-bottom \
+      "It is not recommended to publish $(ansi --bold --white "${REPOS_YAML}")" \
+      "within $(ansi --bold --white "${APP_NAME}") source code."
+
+    console::output \
+      "As a suggestion, you can create a \"$(ansi --bold --white Dev)\"" \
+      "folder in your username home directory" \
+      "\"$(ansi --bold --white "${HOME}")\". Use the following command:" \
+      "$(ansi --bold --white "mkdir -p ~/Dev && cd ~/Dev && ${APP_COMMAND} repos:publish")."
+
+    exit 1
+  fi
 
   # Strip out whitespaces
   user_template="${user_template//[[:blank:]]/}"
