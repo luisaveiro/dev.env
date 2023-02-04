@@ -43,3 +43,56 @@ function symlink::create() {
 
   ln -s "${original}" "${link}"
 }
+
+#######################################
+# Remove the Symbolic Link.
+#
+# Arguments:
+#   link
+#######################################
+function symlink::remove() {
+  unlink "${1}"
+}
+
+#######################################
+# Check if the path is a Symbolic Link.
+#
+# Arguments:
+#   link
+#
+# Returns:
+#   0 if the path is a symbolic link.
+#   1 if the path is not a symbolic
+#     link.
+#######################################
+function symlink::is_symlink() {
+  [[ -L "${1}" ]] && return 0 || return 1
+}
+
+#######################################
+# Check if the Symbolic Link is valid.
+#
+# Arguments:
+#   link
+#
+# Returns:
+#   0 if the symbolic link is valid.
+#   1 if the symbolic link isn't valid.
+#######################################
+function symlink::is_valid() {
+  [[ -e "${1}" ]] && return 0 || return 1
+}
+
+#######################################
+# Get the target file for the Symbolic
+# Link.
+#
+# Arguments:
+#   link
+#
+# Outputs:
+#   The file name including path.
+#######################################
+function symlink::target() {
+  readlink -f "${1}"
+}
