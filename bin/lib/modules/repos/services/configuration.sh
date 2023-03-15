@@ -21,7 +21,6 @@
 function configuration::add_local_configuration() {
   local arguments_list=("config_file" "rename" "use_symlink")
   local config_file
-  local file_extension
   local rename
   local use_symlink=true
 
@@ -38,9 +37,9 @@ function configuration::add_local_configuration() {
     shift
   done
 
-  file_extension="$(filesystem::file_extension "${config_file}")"
+  unset arguments_list
 
-  if [[ "${file_extension}" != "yml" && "${file_extension}" != "yaml" ]]; then
+  if ! filesystem::is_yaml_file "${config_file}"; then
     console::error \
       "Repositories configuration files must be a YAML file and have the YAML" \
       "file extension: $(ansi --bold --white .yml) or" \
@@ -66,6 +65,7 @@ function configuration::add_local_configuration() {
 # Arguments:
 #   --git_repo_url
 #   --only_include
+#   --path
 #   --rename
 #
 # Outputs:
@@ -76,11 +76,12 @@ function configuration::add_local_configuration() {
 #     is invalid.
 #######################################
 function configuration::add_remote_configuration() {
-  local arguments_list=("git_repo_url" "only_include" "rename")
+  local arguments_list=("git_repo_url" "only_include" "path" "rename")
   local clone_dir
   local git_repo_url
   local included_list=()
   local only_include
+  local path
   local rename
 
   while [ $# -gt 0 ]; do
@@ -95,6 +96,8 @@ function configuration::add_remote_configuration() {
 
     shift
   done
+
+  unset arguments_list
 
   IFS=',' read -ra only_includes <<< "${only_include}"
 
@@ -159,31 +162,10 @@ function configuration::add_remote_configuration() {
     exit 1
   fi
 
-  files=("${clone_dir}"/*)
-
-  for config_file in "${files[@]}"; do
-    file_extension="$(filesystem::file_extension "${config_file}")"
-
-    if [[ "${file_extension}" != "yml" && "${file_extension}" != "yaml" ]]; then
-      continue
-    fi
-
-    if [[ -n "${only_include}" ]]; then
-      file_name="$(filesystem::file_name "${config_file}")"
-      file_name="${file_name%.*}.yaml"
-
-      if [[ "${included_list[*]}" =~ ${file_name} ]]; then
-        configuration::copy_config_file \
-          --config_file="${config_file}" \
-          --rename="${rename}" \
-          --use_symlink=false
-      fi
-    else
-      configuration::copy_config_file \
-        --config_file="${config_file}" \
-        --use_symlink=false
-    fi
-  done
+  configuration::find_config_files \
+    --dir="${clone_dir}/${path}" \
+    --only_include="${only_include}" \
+    --rename="${rename}"
 
   rm -rf "${clone_dir:?}"
 }
@@ -212,7 +194,6 @@ function configuration::add_remote_configuration() {
 function configuration::copy_config_file() {
   local arguments_list=("config_file" "rename" "use_symlink")
   local config_file
-  local file_extension
   local file_name
   local file_path
   local rename
@@ -231,9 +212,9 @@ function configuration::copy_config_file() {
     shift
   done
 
-  file_extension="$(filesystem::file_extension "${config_file}")"
+  unset arguments_list
 
-  if [[ "${file_extension}" != "yml" && "${file_extension}" != "yaml" ]]; then
+  if ! filesystem::is_yaml_file "${config_file}"; then
     return
   fi
 
@@ -276,12 +257,16 @@ function configuration::copy_config_file() {
     question+="configuration file, (${file_name})?"
 
     if ! console::ask --message="${question}" --default="N"; then
+      console::notice --margin-top --margin-bottom \
+        "Skipping $(ansi --bold --white "${file_name}") YAML repository" \
+        "configuration file!"
+
       return
     fi
 
     rm "${TEMPLATE_DIR}/${file_name}"
 
-    console::info --margin-top --margin-bottom \
+    console::notice --margin-top --margin-bottom \
       "Replacing $(ansi --bold --white "${file_name}") YAML repository" \
       "configuration file!"
   fi
@@ -306,7 +291,94 @@ function configuration::copy_config_file() {
       "($(ansi --bold --white "${TEMPLATE_DIR}")) directory."
   fi
 
-  console::output \
+  console::output --margin-bottom \
     "Use the following command to publish your YAML repository configuration" \
     "file: $(ansi --bold --white repos:publish "${file_name%.*}")."
+}
+
+#######################################
+# Find repositories YAML file(s) in a
+# directoy.
+#
+# Arguments:
+#   --dir
+#   --only_include
+#   --rename
+#######################################
+function configuration::find_config_files() {
+  local arguments_list=("dir" "only_include" "rename")
+  local dir
+  local files=()
+  local included_list=()
+  local only_include
+  local rename
+  local yaml
+  local yaml_prefix="yaml_"
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--"* && $1 == *"="* ]]; then
+      local argument="${1/--/}"
+      IFS='=' read -ra parameter <<< "${argument}"
+
+      if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
+        declare "${parameter[0]}"="${parameter[1]}"
+      fi
+    fi
+
+    shift
+  done
+
+  unset arguments_list
+
+  IFS=',' read -ra only_includes <<< "${only_include}"
+
+  for include_file in "${only_includes[@]}"; do
+    included_list+=("${include_file}")
+  done
+
+  unset only_includes
+
+  files=("${dir/\//}"/*)
+
+  for file in "${files[@]}"; do
+    if filesystem::does_directory_exists "${file}"; then
+      configuration::find_config_files \
+        --dir="${file}" \
+        --only_include="${only_include}" \
+        --rename="${rename}"
+
+      continue
+    fi
+
+    if ! filesystem::is_yaml_file "${file}"; then
+      continue
+    fi
+
+    # Parse the repositories.yaml file.
+    yaml="$(yaml::parse_yaml \
+      --file="${file}" \
+      --prefix="${yaml_prefix}")"
+
+    if
+      ! yaml::validate --element="${yaml_prefix}enabled_repositories" "${yaml[*]}"
+    then
+      continue
+    fi
+
+    if [[ -n "${only_include}" ]]; then
+      file_name="$(filesystem::file_name "${file}")"
+      file_name="${file_name%.*}.yaml"
+
+      if [[ "${included_list[*]}" =~ ${file_name} ]]; then
+        configuration::copy_config_file \
+          --config_file="${file}" \
+          --rename="${rename}" \
+          --use_symlink=false
+      fi
+    else
+      configuration::copy_config_file \
+        --config_file="${file}" \
+        --use_symlink=false
+    fi
+  done
 }

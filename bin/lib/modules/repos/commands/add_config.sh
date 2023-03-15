@@ -20,11 +20,11 @@
 #   combination of arguments.
 #######################################
 function repos::command_add_config() {
-  local arguments_list=("only-include" "rename")
+  local arguments_list=("only-include" "path" "rename")
   local config_file="$*"
-  local extension
   local use_symlink=true
   local only_include
+  local path
   local rename
 
   while [ $# -gt 0 ]; do
@@ -43,6 +43,8 @@ function repos::command_add_config() {
 
     shift
   done
+
+  unset arguments_list
 
   # Strip out whitespaces
   config_file="${config_file//[[:blank:]]/}"
@@ -73,8 +75,18 @@ function repos::command_add_config() {
   if [ -n "${only_include}" ]; then
     if ! filesystem::is_remote_file "${config_file}"; then
       console::error \
-        "The $(ansi --bold --white "--only-include")" \
-        "argument is only supported for remote configuration files."
+        "The $(ansi --bold --white "--only-include") argument is only" \
+        "supported for remote configuration files."
+
+      exit 1
+    fi
+  fi
+
+  if [ -n "${path}" ]; then
+    if ! filesystem::is_remote_file "${config_file}"; then
+      console::error \
+        "The $(ansi --bold --white "--path") argument is only supported for" \
+        "remote configuration files."
 
       exit 1
     fi
@@ -83,8 +95,8 @@ function repos::command_add_config() {
   if [[ "${use_symlink}" == false ]]; then
     if filesystem::is_remote_file "${config_file}"; then
       console::error \
-        "The $(ansi --bold --white "--no-symlink")" \
-        "argument is only supported for local configuration files."
+        "The $(ansi --bold --white "--no-symlink") argument is only supported" \
+        "for local configuration files."
 
       exit 1
     fi
@@ -92,9 +104,7 @@ function repos::command_add_config() {
 
   if [ -n "${rename}" ]; then
     if [[ "${rename}" == *"."* ]]; then
-      extension="$(filesystem::file_extension "${rename}")"
-
-      if [[ "${extension}" != "yml" && "${extension}" != "yaml" ]]; then
+      if ! filesystem::is_yaml_file "${rename}"; then
         console::error \
           "You can only rename a configuration file with the YAML file" \
           "extension: $(ansi --bold --white ".yml") or" \
@@ -116,7 +126,8 @@ function repos::command_add_config() {
   else
     configuration::add_remote_configuration \
       --git_repo_url="${config_file}" \
-      --rename="${rename}" \
-      --only_include="${only_include}"
+      --only_include="${only_include}" \
+      --path="${path}" \
+      --rename="${rename}"
   fi
 }
