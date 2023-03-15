@@ -83,3 +83,20 @@ function filesystem::file_path() {
 function filesystem::is_remote_file() {
   [[ $1 =~ ^(http|https|git)(:\/\/|@) ]] && return 0 || return 1
 }
+
+#######################################
+# Check if the file is a YAML file.
+#
+# Arguments:
+#   file
+#
+# Returns:
+#   0 if file is a YAML file.
+#   1 if file is not a YAML file.
+#######################################
+function filesystem::is_yaml_file() {
+  file_extension="$(filesystem::file_extension "${1}")"
+
+  [[ "${file_extension}" == "yml" || "${file_extension}" == "yaml" ]] && \
+    return 0 || return 1
+}
