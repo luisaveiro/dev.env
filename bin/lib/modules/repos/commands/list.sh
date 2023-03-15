@@ -18,7 +18,7 @@ function repos::command_list() {
   local templates=()
 
   for template in "${TEMPLATE_DIR}"/*; do
-    if [[ -d "${template}" ]]; then
+    if ! filesystem::does_file_exists "${template}"; then
       continue
     fi
 
