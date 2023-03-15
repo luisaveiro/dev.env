@@ -16,7 +16,7 @@ function git::active_branch() {
   local dir
 
   while [ $# -gt 0 ]; do
-    if [[ $1 == *"--dir="* ]]; then
+    if [[ "${1}" == *"--dir="* ]]; then
       local argument="${1/--/}"
       IFS='=' read -ra parameter <<< "${argument}"
 
@@ -52,7 +52,6 @@ function git::checkout() {
   while [ $# -gt 0 ]; do
     if [[ $1 == *"--"* && $1 == *"="* ]]; then
       local argument="${1/--/}"
-
       IFS='=' read -ra parameter <<< "${argument}"
 
       if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
@@ -63,13 +62,15 @@ function git::checkout() {
     shift
   done
 
+  unset arguments_list
+
   command=$( cd "${dir}" && git checkout "${branch}" 2>&1 )
 
   [[ -n $command ]] && return 1 || return 0
 }
 
 #######################################
-# Git clone repository
+# Clone Git repository.
 #
 # Arguments:
 #   --branch
@@ -78,8 +79,9 @@ function git::checkout() {
 #   flags
 #
 # Returns:
-#   1 git clone fails or if repository directory exists.
-#   0 git clone successful.
+#   0 Git clone successful.
+#   1 Git clone fails or if repository
+#   directory exists.
 #######################################
 function git::clone() {
   local arguments_list=("branch" "dir" "repo")
@@ -103,6 +105,8 @@ function git::clone() {
 
     shift
   done
+
+  unset arguments_list
 
   IFS=' ' read -ra flags <<< "${flags}"
 
@@ -144,7 +148,96 @@ function git::fetch() {
 }
 
 #######################################
-# Check if Git URL is valid.
+# Get the Git Remote URL for a
+# repository.
+#
+# Arguments:
+#   --dir
+#   --remote
+#
+# Outputs:
+#   Git Remote Url.
+#######################################
+function git::get_remote_url() {
+  local arguments_list=("dir" "remote")
+  local dir
+  local remote=origin
+
+  while [ $# -gt 0 ]; do
+    if [[ $1 == *"--"* && $1 == *"="* ]]; then
+      local argument="${1/--/}"
+      IFS='=' read -ra parameter <<< "${argument}"
+
+      if [[ "${arguments_list[*]}" =~ ${parameter[0]} ]]; then
+        declare "${parameter[0]}"="${parameter[1]}"
+      fi
+    fi
+
+    shift
+  done
+
+  unset arguments_list
+
+  console::output "$(cd "${dir}" && git remote get-url --all "${remote}")"
+}
+
+#######################################
+# Get the Git repository name.
+#
+# Global:
+#   GIT_REGEX
+#
+# Arguments:
+#   Git Remote URL
+#
+# Outputs:
+#   Git repository name.
+#######################################
+function git::get_repository_name() {
+  if [[ $1 =~ ${GIT_REGEX} ]]; then
+    console::output "${BASH_REMATCH[5]}"
+  fi
+}
+
+#######################################
+# Get the Git repository server.
+#
+# Global:
+#   GIT_REGEX
+#
+# Arguments:
+#   Git Remote URL
+#
+# Outputs:
+#   Git repository server name.
+#######################################
+function git::get_repository_server() {
+  if [[ $1 =~ ${GIT_REGEX} ]]; then
+    echo "${BASH_REMATCH[3]}"
+  fi
+}
+
+#######################################
+# Get the Git repository user.
+#
+# Global:
+#   GIT_REGEX
+#
+# Arguments:
+#   Git Remote URL
+#
+# Outputs:
+#   Git repository user.
+#######################################
+function git::get_repository_user() {
+  if [[ $1 =~ ${GIT_REGEX} ]]; then
+    console::output "${BASH_REMATCH[4]}"
+  fi
+}
+
+
+#######################################
+# Check if Git Remote URL is valid.
 #
 # Arguments:
 #   Git URL
@@ -223,6 +316,8 @@ function git::tag_timestamp() {
 
     shift
   done
+
+  unset arguments_list
 
   if filesystem::does_directory_exists "${dir}/.git"; then
     console::output "$( cd "${dir}" && git log -1 --format=%ai "${tag}" )"
