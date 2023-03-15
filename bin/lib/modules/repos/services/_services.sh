@@ -8,6 +8,7 @@
 
 readonly REPOS_SERVICES=(
   "configuration"
+  "repository"
 )
 
 #######################################
