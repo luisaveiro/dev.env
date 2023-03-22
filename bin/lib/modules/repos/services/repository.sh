@@ -63,7 +63,7 @@ function repository::clone() {
       "$(ansi --bold --red "[FAILED]")"
 
     console::error --margin-top \
-      "Repository $(ansi --bold --white "${repository}") is missing Git" \
+      "Repository $(ansi --bold --white "${repository}") is missing the Git" \
       "Remote URL. Please add the \"$(ansi --bold --white gitUrl)\" element" \
       "in your $(ansi --bold --white "${REPOS_YAML}")"
 

@@ -89,9 +89,7 @@ function repos::command_setup() {
   progressbar::start
 
   # Parse the repositories.yaml file.
-  yaml="$(yaml::parse_yaml \
-    --file="${repos_file}" \
-    --prefix="${yaml_prefix}")"
+  yaml="$(yaml::parse_yaml --file="${repos_file}" --prefix="${yaml_prefix}")"
 
   progressbar::half
   progressbar::finish --clear
@@ -115,7 +113,7 @@ function repos::command_setup() {
       "[2/3] Validating YAML configuration. $(ansi --bold --red "[FAILED]")"
 
     console::error --margin-top --margin-bottom \
-      "Your $(ansi --bold --white repositories.yml) is not valid."
+      "Your $(ansi --bold --white "${REPOS_YAML}") is not valid."
 
     console::output \
       "Please add \"$(ansi --bold --white enabled-repositories)\" element" \
