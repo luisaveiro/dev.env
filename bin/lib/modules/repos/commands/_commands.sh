@@ -11,6 +11,7 @@ readonly REPOS_COMMANDS=(
   "list"
   "publish"
   "setup"
+  "status"
   "usage"
 )
 
