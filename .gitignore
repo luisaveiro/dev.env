@@ -3,3 +3,4 @@ samples/*
 setups/*
 templates/*
 !templates/repositories-template.yml
+!templates/repositories-template.yaml

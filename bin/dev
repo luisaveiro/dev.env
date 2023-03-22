@@ -1,92 +1,69 @@
 #!/usr/bin/env bash
 #
-# Main executable shell script.
+# DEV.env main executable shell script.
 
 set -e
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-readonly CURRENT_DIR
-
-# shellcheck source=/dev/null
-source "${CURRENT_DIR}/config/core.sh"
-
-# shellcheck source=/dev/null
-source "${CURRENT_DIR}/functions/functions.sh"
-
-# shellcheck source=/dev/null
-source "${CURRENT_DIR}/commands/commands.sh"
-
-# shellcheck source=/dev/null
-source "${CURRENT_DIR}/messages/messages.sh"
-
-# shellcheck source=/dev/null
-source "${CURRENT_DIR}/packages/packages.sh"
-
 #######################################
-# Main shell script.
+# Prevent Sourcing
 #
-# Globals:
-#   PROJECT_DIR
-#
-# Arguments:
-#   User input
-#
-# Returns:
-#   0 if user does not provide an input.
+# Firstly, we need to ensure DEV.env
+# is executed in a new shell process.
 #######################################
-function main() {
-  local package command
 
-  message::supportUkraine
-
-  if [ $# == 0 ] || [ "${1}" == 'help' ]; then
-    command::help \
-      --project_dir="${PROJECT_DIR}" \
-      --package=env \
-      --package=prototype \
-      --package=repos
-
-    exit 0
-  elif [[ $1 != *":"* ]]; then
-    # loop through user input.
-    for arg in "$@"; do
-      shift
-      case "$arg" in
-        self-update)
-          command::self_update --project_dir="${PROJECT_DIR}"
-          break;;
-        *)
-          error "Command $(ansi --bold --white "${arg}") is not supported."
-          output "To view a list of all available commands use the following:" \
-            "$(ansi --bold --white dev help)."
-
-          exit 1;;
-      esac
-    done
-  else
-    package="$(cut -d':' -f1 <<< "$1")"
-    command="$(cut -d':' -f2 <<< "$1")"
-
-    shift
-    package::load "${package}/${package}.sh"
-    package::execute_command --package="${package}" --command="${command}" "$@"
-  fi
-}
-
-# Verify operating system is supported...
-is_operating_system_supported
-
-# Ensure that Git is installed...
-if ! git::is_installed; then
-  error --newline=bottom "Git is not installed!"
-
-  output "$(ansi --bold --white DEV.env) requires Git to clone Git Repositories."
-  output "Please install Git via" \
-    "$(ansi --bold --white --underline https://git-scm.com) before using" \
-    "$(ansi --bold --white DEV.env)."
+if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
+  echo >&2 "ERROR: \`DEV.env\` cannot be sourced."
 
   exit 1
 fi
 
-# Execute main function...
+#######################################
+# Load Environment Variables
+#
+# Secondly, we need our environment
+# variables.
+#######################################
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly BIN_DIR
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/env/dotenv.sh"
+
+#######################################
+# Define Global Constant
+#
+# Thirdly, we determine the DEV.env
+# directory.
+#######################################
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/config/_config.sh"
+
+#######################################
+# Load Dependencies
+#
+# Next, we "glue" all the components of
+# DEV.env and source them.
+#######################################
+
+if [[ ! "$( ls -A "${BIN_DIR}/packages" )" ]]; then
+  echo >&2 "ERROR: missing dependencies for \`DEV.env\`."
+
+  exit 1
+fi
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/lib/_lib.sh"
+
+# shellcheck source=/dev/null
+source "${BIN_DIR}/bootstrap/app.sh"
+
+#######################################
+# Run The Application
+#
+# Finally, we execute the DEV.env
+# application.
+#######################################
+
 main "$@"

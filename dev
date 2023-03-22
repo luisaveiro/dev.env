@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Alias shell script for ./bin/dev.
+
+set -e
+
+#######################################
+# Prevent Sourcing
+#
+# Firstly, we need to ensure DEV.env
+# is executed in a new shell process.
+#######################################
+
+if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
+  echo >&2 "ERROR: \`DEV.env\` cannot be sourced."
+
+  exit 1
+fi
+
+#######################################
+# Define Global Constant
+#
+# Secondly, we determine the DEV.env
+# directory.
+#######################################
+
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly CURRENT_DIR
+
+#######################################
+# Run The Application
+#
+# Finally, we execute the DEV.env
+# application.
+#######################################
+
+exec "${CURRENT_DIR}/bin/dev" "$@"
