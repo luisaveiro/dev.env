@@ -10,6 +10,7 @@ readonly SUPPORT_HELPERS=(
   "explain"
   "help"
   "module"
+  "table"
   "yaml"
 )
 
